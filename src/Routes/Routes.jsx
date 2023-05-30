@@ -11,6 +11,7 @@ import Secret from "../Pages/Sheared/Secret/Secret";
 import PrivetRoute from "./PrivetRoute";
 import Dashboard from "../Layout/Dashboard";
 import MyCard from "../Pages/Dashboard/MyCard/MyCard";
+import AllUsers from "../Pages/Dashboard/AllUserrs/AllUsers";
 
   const router = createBrowserRouter([
     {
@@ -46,12 +47,16 @@ import MyCard from "../Pages/Dashboard/MyCard/MyCard";
     },
     {
       path: 'dashboard',
-      element: <Dashboard></Dashboard>,
+      element: <PrivetRoute><Dashboard></Dashboard></PrivetRoute>,
       children:[
         {
           path:'mycart',
           
           element: <MyCard></MyCard>
+        },
+        {
+          path:'allusers',
+          element: <AllUsers></AllUsers>
         }
       ]
     }

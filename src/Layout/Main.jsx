@@ -5,7 +5,7 @@ import NavBar from "../Pages/Sheared/NavBar/NavBar";
 
 const Main = () => {
     const location = useLocation()
-    const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('signin') 
+    const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('signup') 
     return (
         <div>
             {noHeaderFooter || <NavBar></NavBar>}

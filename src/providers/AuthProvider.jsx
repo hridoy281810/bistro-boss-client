@@ -1,11 +1,14 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import app from '../firebase/firebase.config';
+import axios from 'axios';
 export const AuthContext =  createContext(null)
  const auth = getAuth(app);
+
 const AuthProvider = ({children}) => {
     const [user,setUser] = useState()
     const [loading,setLoading] = useState(true)
+    const googleProvider = new GoogleAuthProvider()
    const createUser = (email,password)=>{
     setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password)
@@ -14,12 +17,17 @@ const AuthProvider = ({children}) => {
     setLoading(true)
     return signInWithEmailAndPassword(auth,email,password)
    }
+
+   const googleLogin = ()=>{
+setLoading(true)
+   return signInWithPopup(auth,googleProvider)
+   }
    const logOut = ()=>{
     setLoading(true)
     return signOut(auth)
    }
    
-   const updateProfile = (name,photo)=>{
+   const updateUserProfile = (name,photo)=>{
     setLoading(true)
   return updateProfile(auth.currentUser, {
     displayName: name, photoURL: photo
@@ -30,7 +38,20 @@ const AuthProvider = ({children}) => {
    const unsubscribe =  onAuthStateChanged(auth,currentUser =>{
         setUser(currentUser);
         console.log('current user', currentUser)
-        setLoading(false);
+        // get and set token
+      if(currentUser){
+        axios.post('http://localhost:5000/jwt', {email: currentUser.email})
+        .then(data => {
+            console.log(data)
+            localStorage.setItem('access-token',data.data)
+            setLoading(false);
+
+        })
+      }
+      else{
+        localStorage.removeItem('access-token')
+      }
+        
     });
     return ()=>{
         return unsubscribe();
@@ -41,8 +62,9 @@ const authInfo ={
     loading,
  createUser,
  signIn,
+ googleLogin,
  logOut,
- updateProfile
+ updateUserProfile
 
 }
     return (
