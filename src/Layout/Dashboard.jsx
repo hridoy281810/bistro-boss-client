@@ -13,7 +13,7 @@ const Dashboard = () => {
     return (
         <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-center">
+        <div className=" ml-8 drawer-content ">
           {/* <!-- Page content here -->
            */}
            <Outlet></Outlet>
@@ -25,17 +25,17 @@ const Dashboard = () => {
           <ul className="menu p-4 w-80 bg-[#D1A054]">
             {
               isAdmin ? <>
-                <li><NavLink to='/dashboard/home'><FaHome/> Admin Home</NavLink></li>
-            <li><NavLink to='/dashboard/reservation'><ImSpoonKnife /> Add Items</NavLink></li>
-            <li><NavLink to='/dashboard/history'><ImList2 /> Manage Items</NavLink></li>
+                <li><NavLink to='/dashboard/adminHome'><FaHome/> Admin Home</NavLink></li>
+            <li><NavLink to='/dashboard/addItem'><ImSpoonKnife /> Add an Item</NavLink></li>
+            <li><NavLink to='/dashboard/manageItems'><ImList2 /> Manage Items</NavLink></li>
             <li ><NavLink to='/dashboard/mycart'><FaBook/>Manage Booking</NavLink>
            
             </li>
             <li ><NavLink to='/dashboard/allusers'><HiUserGroup />All Users</NavLink>
-           
             </li>
+
               </>: <>
-                <li><NavLink to='/dashboard/home'><FaHome/> User Home</NavLink></li>
+                <li><NavLink to='/dashboard/userHome'><FaHome/> User Home</NavLink></li>
             <li><NavLink to='/dashboard/reservation'><FaCalendarAlt /> Reservation</NavLink></li>
             <li><NavLink to='/dashboard/history'><FaWallet /> Payment History</NavLink></li>
             <li ><NavLink to='/dashboard/mycart'><FaShoppingCart /> My Cart   <span className="badge  badge-secondary">+{cart?.length || 0}</span></NavLink>
